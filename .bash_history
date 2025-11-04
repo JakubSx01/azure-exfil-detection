@@ -100,3 +100,10 @@ git fetch origin
 git branch -a
 ls
 ls -la
+rm -rf .git
+git init
+git add .
+git commit -m "Initial commit: Bicep IaC + GitHub Actions"
+git branch -M main
+git remote add origin https://github.com/JakubSx01/azure-exfil-detection.git
+git push -u origin main
