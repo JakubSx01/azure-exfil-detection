@@ -13,15 +13,15 @@ INCIDENT_CONTAINER = "incident-logs"
 @app.route(route="playbook")
 def response_playbook(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('🚨 Alert received')
-    
+
     try:
         alert_data = req.get_json()
         caller_ip = extract_ip(alert_data)
         timestamp = datetime.utcnow().isoformat()
         alert_name = alert_data.get('data', {}).get('essentials', {}).get('alertRule', 'Unknown')
-        
+
         incident_id = log_incident(alert_name, caller_ip, timestamp, alert_data)
-        
+
         return func.HttpResponse(
             json.dumps({
                 "status": "mitigated",
@@ -47,16 +47,16 @@ def log_incident(alert_name, ip, timestamp, data):
         account_url=f"https://{STORAGE_ACCOUNT}.blob.core.windows.net",
         credential=credential
     )
-    
+
     container = blob_service.get_container_client(INCIDENT_CONTAINER)
     try:
         container.create_container()
     except:
         pass
-    
+
     incident_id = f"{timestamp.replace(':', '-')}_{ip.replace('.', '-')}"
     blob_name = f"incident-{incident_id}.json"
-    
+
     blob = container.get_blob_client(blob_name)
     blob.upload_blob(
         json.dumps({
@@ -68,6 +68,6 @@ def log_incident(alert_name, ip, timestamp, data):
         }, indent=2),
         overwrite=True
     )
-    
+
     logging.info(f'✅ Logged: {incident_id}')
     return incident_id
