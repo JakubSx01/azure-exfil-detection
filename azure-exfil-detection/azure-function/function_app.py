@@ -5,6 +5,7 @@ from datetime import datetime
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
 import os
+
 STORAGE_CONN_STR = os.environ.get('STORAGE_CONNECTION_STRING')
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
@@ -45,13 +46,13 @@ def extract_ip(alert_data):
 
 def log_incident(alert_name, ip, timestamp, data):
     if STORAGE_CONN_STR:
-       blob_service = BlobServiceClient.from_connection_string(STORAGE_CONN_STR)
+        blob_service = BlobServiceClient.from_connection_string(STORAGE_CONN_STR)
     else:
         credential = DefaultAzureCredential()
         blob_service = BlobServiceClient(
-        account_url=f"https://{STORAGE_ACCOUNT}.blob.core.windows.net",
-        credential=credential
-    )
+            account_url=f"https://{STORAGE_ACCOUNT}.blob.core.windows.net",
+            credential=credential
+        )
 
     container = blob_service.get_container_client(INCIDENT_CONTAINER)
     try:
