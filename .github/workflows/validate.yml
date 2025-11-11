@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'infra/**'
+      - 'azure-exfil-detection/infra/**'
       - '.github/workflows/validate.yml'
 
 permissions:
