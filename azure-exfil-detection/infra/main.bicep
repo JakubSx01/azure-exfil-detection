@@ -97,3 +97,4 @@ output storageAccountName string = storage.outputs.storageAccountName
 output logAnalyticsWorkspaceId string = monitoring.outputs.workspaceId
 output keyVaultName string = keyvault.outputs.keyVaultName
 output cmkKeyId string = keyvault.outputs.cmkKeyId
+# Test
