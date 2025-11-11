@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'infra/**'
+      - 'azure-exfil-detection/infra/**'
   workflow_dispatch:
 
 permissions:
@@ -35,8 +35,8 @@ jobs:
           
           az deployment group create \
             --resource-group rg-exfil-lab-dev \
-            --template-file infra/main.bicep \
-            --parameters infra/dev.bicepparam \
+            --template-file azure-exfil-detection/infra/main.bicep \
+            --parameters azure-exfil-detection/infra/dev.bicepparam \
             --name "$DEPLOYMENT_NAME" \
             --output json > deployment-output.json
           

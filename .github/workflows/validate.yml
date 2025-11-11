@@ -30,20 +30,20 @@ jobs:
 
       - name: Bicep Build
         run: |
-          az bicep build --file infra/main.bicep
+          az bicep build --file azure-exfil-detection/infra/main.bicep
           echo "✅ Bicep build successful"
 
       - name: Bicep Lint
         run: |
-          az bicep lint --file infra/main.bicep
+          az bicep lint --file azure-exfil-detection/infra/main.bicep
           
       - name: What-If DEV
         id: whatif
         run: |
           az deployment group what-if \
             --resource-group rg-exfil-lab-dev \
-            --template-file infra/main.bicep \
-            --parameters infra/dev.bicepparam \
+            --template-file azure-exfil-detection/infra/main.bicep \
+            --parameters azure-exfil-detection/infra/dev.bicepparam \
             --no-pretty-print > whatif-output.txt
           
       - name: Comment PR
